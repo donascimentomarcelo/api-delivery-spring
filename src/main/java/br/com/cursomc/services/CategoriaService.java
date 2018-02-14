@@ -1,10 +1,14 @@
 package br.com.cursomc.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.Categoria;
 import br.com.cursomc.repositories.CategoriaRepository;
+import br.com.cursomc.services.exceptions.DataIntegrityException;
 import br.com.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -24,5 +28,32 @@ public class CategoriaService {
 		}
 		
 		return categoria;
+	}
+
+	public Categoria save(Categoria categoria) 
+	{	
+		categoria.setId(null);
+		return categoriaRepository.save(categoria);
+	}
+
+	public Categoria update(Categoria categoria) {
+		findById(categoria.getId());
+		return categoriaRepository.save(categoria);
+		
+	}
+
+	public void delete(Integer id) {
+		findById(id);
+		
+		try {
+		categoriaRepository.delete(id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Exite um ou mais produtos vinculados a essa categoria!");
+		}
+	}
+
+	public List<Categoria> list() {
+		return categoriaRepository.findAll();
 	}
 }
