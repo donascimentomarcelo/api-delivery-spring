@@ -10,6 +10,7 @@ import br.com.cursomc.domain.ItemPedido;
 import br.com.cursomc.domain.PagamentoComBoleto;
 import br.com.cursomc.domain.Pedido;
 import br.com.cursomc.domain.enums.EstadoPagamento;
+import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.repositories.ItemPedidoRepository;
 import br.com.cursomc.repositories.PagamentoRepository;
 import br.com.cursomc.repositories.PedidoRepository;
@@ -33,6 +34,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 	public Pedido findById(Integer id) 
 	{
 		Pedido pedido = pedidoRepository.findOne(id);
@@ -47,6 +51,8 @@ public class PedidoService {
 	}
 
 	public Pedido save(Pedido pedido) {
+
+		validIfClientExist(pedido);
 		
 		pedido.setId(null);
 		pedido.setInstante(new Date());
@@ -74,5 +80,13 @@ public class PedidoService {
 		
 		itemPedidoRepository.save(pedido.getItens());
 		return pedido;
+	}
+	
+	private void validIfClientExist(Pedido pedido)
+	{
+		if(clienteRepository.findOne(pedido.getCliente().getId()) == null)
+		{
+			throw new ObjectNotFoundException("Cliente não encontrado!");
+		}
 	}
 }
