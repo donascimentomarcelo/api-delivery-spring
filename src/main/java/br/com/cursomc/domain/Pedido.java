@@ -1,6 +1,7 @@
 package br.com.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,6 +58,17 @@ public class Pedido implements Serializable{
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+	public double getTotal()
+	{
+		double total = 0.0;
+		
+		for(ItemPedido itemPedido: itens)
+		{
+			total += itemPedido.getSubTotal();
+		}
+		return total;
 	}
 
 	public Integer getId() {
