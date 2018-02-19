@@ -56,6 +56,7 @@ public class PedidoService {
 		
 		pedido.setId(null);
 		pedido.setInstante(new Date());
+		pedido.setCliente(clienteRepository.findOne(pedido.getCliente().getId()));
 		pedido.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
 		//Relaciona o pedido ao pagamento
 		pedido.getPagamento().setPedido(pedido);
@@ -73,12 +74,15 @@ public class PedidoService {
 		{
 			itemPedido.setDesconto(0.0);
 			
-			itemPedido.setPreco(produtoRepository.findOne(itemPedido.getProduto().getId()).getPreco());
+			itemPedido.setProduto(produtoRepository.findOne(itemPedido.getProduto().getId()));
+			
+			itemPedido.setPreco(itemPedido.getProduto().getPreco());
 			
 			itemPedido.setPedido(pedido);
 		}
 		
 		itemPedidoRepository.save(pedido.getItens());
+		System.out.println(pedido);
 		return pedido;
 	}
 	

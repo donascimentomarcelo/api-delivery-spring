@@ -12,6 +12,7 @@ public enum EstadoPagamento {
 	private EstadoPagamento(int codigo, String descricao)
 	{
 		this.codigo = codigo;
+		this.descricao = descricao;
 	}
 	
 	public int getCodigo()
