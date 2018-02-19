@@ -8,5 +8,5 @@ public interface EmailService {
 	
 	void sendOrderConfirmationEmail(Pedido pedido);
 	
-	void sendEmail(SimpleMailMessage mailMessage);
+	void sendEmail(SimpleMailMessage message);
 }
