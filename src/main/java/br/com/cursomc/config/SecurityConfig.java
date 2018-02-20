@@ -16,6 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.cursomc.security.JWTAuthenticationFilter;
+import br.com.cursomc.security.JWTAuthorizationFilter;
 import br.com.cursomc.security.JWTUtil;
 
 @Configuration
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 			.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		
 		//Informa que a aplicação não irá armazanar dados em sessão
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
