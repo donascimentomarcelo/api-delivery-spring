@@ -72,4 +72,10 @@ public class UserSpringSecurity implements UserDetails{
 		return true;
 	}
 
+	public boolean hasRole(Perfil perfil) 
+	{
+		//converte o perfil para GrantedAuthority pegando a string "descricao"
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
+
 }
