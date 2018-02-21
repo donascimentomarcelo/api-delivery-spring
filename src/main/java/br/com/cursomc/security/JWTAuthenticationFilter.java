@@ -54,7 +54,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 											Authentication auth) throws IOException, ServletException{
 		
 		String email = ((UserSpringSecurity) auth.getPrincipal()).getUsername();
-		String token = jwtUtil.genetareToken(email);
+		String token = jwtUtil.generateToken(email);
 		res.addHeader("Authorization", "Bearer " + token);
 		
 	}
