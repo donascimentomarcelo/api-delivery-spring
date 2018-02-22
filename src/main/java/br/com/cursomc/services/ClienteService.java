@@ -170,4 +170,23 @@ public class ClienteService {
 		
 	}
 	
+	public Cliente findByEmail(String email)
+	{
+		UserSpringSecurity usuarioLogado = UserService.authenticated();
+		
+		if(usuarioLogado == null || !usuarioLogado.hasRole(Perfil.ADMIN) && !email.equals(usuarioLogado.getUsername()))
+		{
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		Cliente cliente = clienteRepository.findOne(usuarioLogado.getId());
+		
+		if(cliente == null)
+		{
+			throw new ObjectNotFoundException("Objeto não encontrado! Código: " + usuarioLogado.getId() + ", Tipo: " + Cliente.class.getName());
+		}
+		
+		return cliente;
+	}
+	
 }
