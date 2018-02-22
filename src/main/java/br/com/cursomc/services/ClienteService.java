@@ -142,6 +142,21 @@ public class ClienteService {
 	
 	public URI uploadProfilePicture(MultipartFile multipartFile)
 	{
-		return s3Service.uploadFile(multipartFile);
+		UserSpringSecurity usuarioLogado = UserService.authenticated();
+		
+		if(usuarioLogado == null)
+		{
+			throw new AuthorizationException("Acesso negado!");
+		}
+		
+		URI uri = s3Service.uploadFile(multipartFile);
+		
+		Cliente cliente = clienteRepository.findOne(usuarioLogado.getId());
+		
+		cliente.setImageUrl(uri.toString());
+		
+		clienteRepository.save(cliente);
+		
+		return uri;
 	}
 }
