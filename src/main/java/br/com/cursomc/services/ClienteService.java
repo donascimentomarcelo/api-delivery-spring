@@ -183,7 +183,7 @@ public class ClienteService {
 		
 		if(cliente == null)
 		{
-			throw new ObjectNotFoundException("Objeto não encontrado! Código: " + usuarioLogado.getId() + ", Tipo: " + Cliente.class.getName());
+			throw new ObjectNotFoundException("Objeto não encontrado ! Código: " + usuarioLogado.getId() + ", Tipo: " + Cliente.class.getName());
 		}
 		
 		return cliente;
