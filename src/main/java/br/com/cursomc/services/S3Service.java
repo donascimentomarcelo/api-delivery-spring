@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -35,6 +36,10 @@ public class S3Service {
 			InputStream inputStream = multipartFile.getInputStream();
 			String contentType = multipartFile.getContentType();
 			return uploadFile(inputStream, fileName, contentType);
+		
+		}catch (MultipartException e) {
+			throw new MultipartException("Erro Multipart Exception: " + e.getMessage());
+		
 		} catch (IOException e) {
 			throw new FileException("Erro de IO: " + e.getMessage());
 		}
