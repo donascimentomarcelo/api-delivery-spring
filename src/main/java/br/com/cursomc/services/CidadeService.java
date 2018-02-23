@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.cursomc.domain.Cidade;
 import br.com.cursomc.repositories.CidadeRepository;
+import br.com.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CidadeService {
@@ -16,6 +17,13 @@ public class CidadeService {
 	
 	public List<Cidade> find(Integer id)
 	{
-		return cidadeRepository.findCidades(id);
+		List<Cidade> cidade = cidadeRepository.findCidades(id);
+		
+		if(cidade.isEmpty())
+		{
+			throw new ObjectNotFoundException("Não existem cidades para esse estado!");
+		}
+		
+		return cidade;
 	}
 }
