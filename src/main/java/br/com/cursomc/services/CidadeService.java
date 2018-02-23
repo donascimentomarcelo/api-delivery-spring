@@ -17,13 +17,13 @@ public class CidadeService {
 	
 	public List<Cidade> find(Integer id)
 	{
-		List<Cidade> cidade = cidadeRepository.findCidades(id);
+		List<Cidade> cidades = cidadeRepository.findCidades(id);
 		
-		if(cidade.isEmpty())
+		if(cidades.isEmpty())
 		{
 			throw new ObjectNotFoundException("Não existem cidades para esse estado!");
 		}
 		
-		return cidade;
+		return cidades;
 	}
 }
